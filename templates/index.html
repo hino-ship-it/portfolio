@@ -1,37 +1,130 @@
-<!DOCTYPE html>
-<html lang="ja">
-<head>
-    <meta charset="UTF-8">
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0"
+{% extends "base.html" %}
+
+{% block title %}
+    Home | {{ config.title }}
+{% endblock title %}
+
+{% block content %}
+<section class="hero">
+    <p class="eyebrow">
+        GAME DEVELOPMENT / PROGRAMMING
+    </p>
+
+    <h1>
+        Portfolio
         
-    >
-    <title>ひなののPortfolio</title>
-    <link rel="stylesheet" href="/style.css">
-</head>
+    </h1>
 
-<body>
-    <header>
-        <h1>ひなののPortfolio</h1>
+    <p class="hero-description">
+        制作したゲーム、開発中に考えたこと、
+        プログラミングの学習記録をまとめるPortfolioです。
+    </p>
 
-        <nav>
-            <a href="/">Home</a>
-            <a href="/about/">About</a>
-            <a href="/projects/">Projects</a>
-            <a href="/learning/">Learning</a>
-        </nav>
-    </header>
+    <div class="hero-links">
+        <a class="button button-primary" href="/projects/">
+            制作物を見る
+        </a>
 
-    <main>
-        <section>
-            
+        <a class="button" href="/about/">
+            自己紹介
+        </a>
+    </div>
+</section>
 
-            <p>
-                ゲーム制作・その他諸々とプログラミングの学習成果を
-                まとめるPortfolioです。
+<section class="home-section">
+    <div class="section-heading">
+        <div>
+            <p class="eyebrow">PROJECTS</p>
+            <h2>制作物</h2>
+        </div>
+
+        <a href="/projects/">
+            すべて見る →
+        </a>
+    </div>
+
+    <div class="card-grid">
+        {% if project.extra.image %}
+        <a href="{{ project.permalink }}" class="card-image-link">
+            <img
+                class="card-image"
+                src="{{ project.extra.image }}"
+            alt="{{ project.title }}の作品画像"
+            >
+        </a>
+        {% endif %}
+        {% set projects = get_section(path="projects/_index.md") %}
+
+        {% for project in projects.pages | slice(end=3) %}
+        <article class="card">
+            <p class="card-label">
+                {{ project.extra.status | default(value="Project") }}
             </p>
-        </section>
-    </main>
-</body>
-</html>
+
+            <h3>
+                <a href="{{ project.permalink }}">
+                    {{ project.title }}
+                </a>
+            </h3>
+
+            {% if project.description %}
+            <p>
+                {{ project.description }}
+            </p>
+            {% endif %}
+
+            {% if project.extra.technologies %}
+            <ul class="tag-list">
+                {% for technology in project.extra.technologies %}
+                <li>{{ technology }}</li>
+                {% endfor %}
+            </ul>
+            {% endif %}
+        </article>
+        {% endfor %}
+    </div>
+</section>
+
+<section class="home-section">
+    <div class="section-heading">
+        <div>
+            <p class="eyebrow">LEARNING</p>
+            <h2>学習記録</h2>
+        </div>
+
+        <a href="/learning/">
+            すべて見る →
+        </a>
+    </div>
+
+    <div class="article-list">
+        {% set learning = get_section(path="learning/_index.md") %}
+
+        {% for article in learning.pages | slice(end=3) %}
+        <article class="article-item">
+            <div>
+                {% if article.date %}
+                <time datetime="{{ article.date }}">
+                    {{ article.date }}
+                </time>
+                {% endif %}
+
+                <h3>
+                    <a href="{{ article.permalink }}">
+                        {{ article.title }}
+                    </a>
+                </h3>
+
+                {% if article.description %}
+                <p>
+                    {{ article.description }}
+                </p>
+                {% endif %}
+            </div>
+
+            <span aria-hidden="true">→</span>
+        </article>
+        {% endfor %}
+    </div>
+</section>
+{% endblock content %}

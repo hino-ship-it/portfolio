@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+
+{% block title %}
+    {{ page.title }} | {{ config.title }}
+{% endblock title %}
+
+{% block content %}
+<article class="content-page">
+    <header class="page-header">
+        {% if page.extra.status %}
+        <p class="eyebrow">
+            {{ page.extra.status }}
+        </p>
+        {% endif %}
+
+        <h1>{{ page.title }}</h1>
+
+        {% if page.description %}
+        <p class="page-description">
+            {{ page.description }}
+        </p>
+        {% endif %}
+
+        {% if page.date %}
+        <time datetime="{{ page.date }}">
+            {{ page.date }}
+        </time>
+        {% endif %}
+
+        {% if page.extra.technologies %}
+        <ul class="tag-list">
+            {% for technology in page.extra.technologies %}
+            <li>{{ technology }}</li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+    </header>
+
+    <div class="prose">
+        {{ page.content | safe }}
+    </div>
+
+    {% if page.extra.site_url or page.extra.github_url %}
+    <footer class="project-links">
+        {% if page.extra.site_url %}
+        <a
+            class="button button-primary"
+            href="{{ page.extra.site_url }}"
+            target="_blank"
+            rel="noopener noreferrer"
+        >
+            作品を見る
+        </a>
+        {% endif %}
+
+        {% if page.extra.github_url %}
+        <a
+            class="button"
+            href="{{ page.extra.github_url }}"
+            target="_blank"
+            rel="noopener noreferrer"
+        >
+            GitHub
+        </a>
+        {% endif %}
+    </footer>
+    {% endif %}
+</article>
+{% endblock content %}
