@@ -2,10 +2,10 @@
 title = "許可は取ってるプロダクト解説"
 description = "バイト先での業務の効率化するツールを制作しました"
 date = 2026-08-18
-+++
-
 [extra]
 image = "/images/Auto_cleaning.png"
++++
+
 
 ## はじめに
 
